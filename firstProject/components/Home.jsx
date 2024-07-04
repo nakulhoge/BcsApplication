@@ -5,7 +5,7 @@ import axios from "axios";
 import { Picker } from '@react-native-picker/picker';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import Geolocation from '@react-native-community/geolocation';
-
+import * as Animatable from 'react-native-animatable';
 
 
 const Home = ({ navigation }) => {
@@ -185,6 +185,7 @@ async function getUserData() {
           type,
         },
       }));
+  Alert.alert('Image upload successfully');
     } catch (error) {
       console.error('Error handling image change:', error);
       alert('Failed to select image. Please try again.');
@@ -282,16 +283,16 @@ async function getUserData() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-       <Text style={styles.header}>Welcome, {userData.name}</Text>
-       <Text style={styles.header}>Your role is {role}!</Text>
-      <Image style={styles.image} source={require('../assets/home.png')} />
+       <Animatable.Text  animation={'zoomInUp'} style={styles.header}>Welcome, {userData.name} </Animatable.Text>
+       <Animatable.Text  animation={'zoomInUp'} style={styles.header}>Your role is {role}!</Animatable.Text>
+      <Animatable.Image style={styles.image} source={require('../assets/home.png')} animation={'zoomIn'}  duration={1400}/>
 
       {groups.map(group => (
-        <View key={group}>
+        < View key={group} >
           {/* <Text>{group}</Text> */}
           {formFields.filter(field => field.group === group).map(field => (
-            <View key={field._id} style={styles.fieldContainer}>
-              <Text style={styles.fieldLabel}>{field.label}</Text>
+            <View  key={field._id} style={styles.fieldContainer}>
+              <Animatable.Text animation={'slideInLeft'} style={styles.fieldLabel}>{field.label}</Animatable.Text>
               {field.type === "select" ? (
                 <Picker
                   selectedValue={formData[field.fieldName]}

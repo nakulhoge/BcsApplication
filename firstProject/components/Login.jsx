@@ -6,14 +6,14 @@ import CheckBox from '@react-native-community/checkbox';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-
-const Login = () => {
+import * as Animatable from 'react-native-animatable';
+const Login = ({ setLoggedIn }) => {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-  
+
   const handleLogin = async () => {
     try {
       const response = await axios.post("http://192.168.0.238:3000/login", { email, password });
@@ -21,14 +21,9 @@ const Login = () => {
       await AsyncStorage.setItem('token', token);
       await AsyncStorage.setItem('role', response.data.role);
       await AsyncStorage.setItem('formFields', JSON.stringify(response.data.formFields));
-//       console.log('ok fine')
       await AsyncStorage.setItem('loggedIn', JSON.stringify(true));
-//       console.log('ok 2')
-    
-       navigation.navigate('home');
-     
-      // Update state to trigger re-render
-//       console.log('ok 3')
+      setLoggedIn(true); // Update the loggedIn state
+      navigation.navigate('Home');
     } catch (error) {
       console.error("Login failed", error);
       Alert.alert("Login failed. Please try again.");
@@ -40,17 +35,17 @@ const Login = () => {
   };
 
   const handleRegisterClick = () => {
-    navigation.navigate('register');
+    navigation.navigate('Register');
   };
-  
+
   const handleForgotPassword = () => {
-    navigation.navigate('forgotpassword');
+    navigation.navigate('Forgotpassword');
   };
-   
+
   return (
     <View style={styles.loginSection}>
-      <Text style={styles.title}>Welcome Back!</Text>
-      <Text style={styles.description}>Please enter your log in detail below.</Text>
+      <Animatable.Text animation={'zoomIn'}style={styles.title}>Welcome Back!</Animatable.Text>
+      <Animatable.Text animation={'slideInLeft'} style={styles.description}>Please enter your log in detail below.</Animatable.Text>
       <View style={styles.inputGroup}>
         <TextInput
           style={styles.input}
@@ -59,7 +54,7 @@ const Login = () => {
           onChangeText={setEmail}
           keyboardType="email-address"
         />
-        <FontAwesomeIcon icon={faEnvelope} style={styles.icon} />
+        <FontAwesomeIcon style={styles.icon} icon={faEnvelope} />
       </View>
       <View style={styles.inputGroup}>
         <TextInput
@@ -89,7 +84,7 @@ const Login = () => {
         </TouchableOpacity>
       </View>
       <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
-        <Text style={styles.loginBtnText}>Submit</Text>
+        <Animatable.Text animation={'flash'}style={styles.loginBtnText}>Submit</Animatable.Text>
       </TouchableOpacity>
       <Text style={styles.text}>
         Don't have an account?{' '}
@@ -99,7 +94,6 @@ const Login = () => {
   );
 };
 
-// Get the screen dimensions
 const screen = Dimensions.get('window');
 const styles = StyleSheet.create({
   loginSection: {
@@ -158,7 +152,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   checkbox: {
-    transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] // Adjust size here
+    transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }],
   },
   check: {
     flexDirection: 'row',

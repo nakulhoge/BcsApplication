@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useCallback } from 'react';
-
 import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import 'react-native-gesture-handler';
@@ -8,14 +7,11 @@ import AuthStack from './components/AuthStack';
 import DrawerNav from './components/DrawerNav';
 import SplashScreen from 'react-native-splash-screen';
 
-
-
-
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
 
-useEffect(() => {
+  useEffect(() => {
     const initialize = async () => {
       try {
         await new Promise(resolve => setTimeout(resolve, 500)); // Simulating splash screen delay
@@ -40,8 +36,6 @@ useEffect(() => {
     }
   }, []);
 
-
-
   if (loading) {
     // Show a loading indicator while checking login status or logging out
     return (
@@ -53,7 +47,7 @@ useEffect(() => {
 
   return (
     <NavigationContainer>
-      {loggedIn ? <DrawerNav /> : <AuthStack />}
+      {loggedIn ? <DrawerNav setLoggedIn={setLoggedIn} /> : <AuthStack setLoggedIn={setLoggedIn} />}
     </NavigationContainer>
   );
 };

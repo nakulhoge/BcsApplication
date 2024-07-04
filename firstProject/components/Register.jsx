@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEnvelope, faEye, faEyeSlash, faMobile, faUser } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import * as Animatable from 'react-native-animatable';
 
 const Register = () => {
   const navigation = useNavigation();
@@ -27,7 +28,7 @@ const Register = () => {
   };
 
   const handleRegisterClick = () => {
-    navigation.navigate('login');
+    navigation.navigate('Login');
   };
 
   const handleSubmit = (values) => {
@@ -39,7 +40,7 @@ const Register = () => {
         // // Store token in local storage (if applicable)
         console.warn("Register success");
         // Navigate to login screen
-        navigation.navigate('login');
+        navigation.navigate('Login');
       })
       .catch((err) => {
         console.log(err);
@@ -55,7 +56,7 @@ const Register = () => {
     >
       {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
         <View style={styles.container}>
-          <Text style={styles.title}>Create an account</Text>
+          <Animatable.Text animation={'zoomIn'} style={styles.title}>Create an account</Animatable.Text>
           <Text style={{ marginBottom: 10 }}>Please enter your detail below to create an account.</Text>
           <View style={styles.inputWrapper}>
             <TextInput
